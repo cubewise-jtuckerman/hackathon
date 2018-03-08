@@ -2,7 +2,7 @@
 
   <div ng-hide="true">
     <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" tm1-mdx="{TM1DRILLDOWNMEMBER( {[Account].[4]}, ALL, RECURSIVE )}" tm1-attributes="Description" ng-model="lists.account"></tm1-ui-element-list>
-    <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{selections.region}},{{selections.dept}},Net Income,Amount" ng-model="values.netincome"></tm1-dbr-hidden>
+    <tm1-ui-dbr-hidden ng-if="pageInit" tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{selections.region}},{{selections.dept}},Net Income,Amount" ng-model="values.netincome"></tm1-ui-dbr-hidden>
   </div>
 
   <div class="panel panel-primary">
@@ -75,7 +75,7 @@
       </div>
       <div class="row">
         <div class="col-md-12 col-xs-12">
-          <table class="table table-striped table-condensed table-bordered">
+          <table ng-if="pageInit" class="table table-striped table-condensed table-bordered">
             <thead>
               <tr>
                 <th class="tm1-ui-sortable" style="width: 20vw" ng-class="table.sortClass('key')" ng-click="table.sort('key')">Account</th>

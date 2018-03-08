@@ -8,23 +8,32 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
    *     For more information: https://github.com/cubewise-code/canvas-best-practice
    */
 
-  $scope.defaults = {};
+  $scope.defaults = {
+    version: '',
+    year: '',
+    dept: '',
+    region: ''
+  };
 
   $scope.selections = {
     version: $scope.defaults.Version,
     year: $scope.defaults.Year,
     dept: $scope.defaults.Department,
     region: $scope.defaults.Region
-
   };
 
   $scope.lists = {
     account: []
   }
 
-  $scope.values = {};
+  $scope.values = {
+    netincome: 0,
+    generalledger: 0
+  };
 
   $scope.init = function() {
+
+    $scope.pageInit = false;
 
     $tm1Ui.applicationUser('dev').then(function(data) {
       $scope.currentUser = data['FriendlyName'];
@@ -41,8 +50,9 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
           });
         };
       });
-      $tm1Ui.dataRefresh();
+      $scope.pageInit = true;
     });
+    $tm1Ui.dataRefresh();
   }
 
   $scope.setUrl = function(dim, elem) {
@@ -169,8 +179,7 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
         var netIncome = value / 1000000;
       }
       return netIncome;
-    }
-    else {
+    } else {
       return 0;
     }
   }
