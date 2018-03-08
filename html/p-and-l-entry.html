@@ -9,12 +9,25 @@
         <div class="panel-body">
           <div class="row">
             <div class="col-md-12 col-xs-12">
-              <div class="well">
+              <!-- <div class="well"> -->
+                <div class="col-md-3 col-xs-3">
+                  <div>Version</div>
+                  <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Version" tm1-subset="All Versions" tm1-default-element="{{defaults.Version}}" tm1-change="setUrl('Version', data)" ng-model="selections.version"></tm1-ui-subnm>
+                </div>
+                <div class="col-md-3 col-xs-3">
+                  <div>Year</div>
+                  <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" tm1-default-element="{{defaults.Year}}" tm1-change="setUrl('Year', data)" ng-model="selections.year"></tm1-ui-subnm>
+                </div>
+                <div class="col-md-3 col-xs-3">
+                  <div>Region</div>
+                  <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-subset="All Countries" tm1-default-element="{{defaults.Region}}" tm1-change="setUrl('Region', data)" ng-model="selections.region"></tm1-ui-subnm>
+                </div>
+                <div class="col-md-3 col-xs-3">
+                  <div>Department</div>
+                  <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-subset="DepartmentList" tm1-default-element="{{defaults.Department}}" tm1-change="setUrl('Department', data)" ng-model="selections.dept"></tm1-ui-subnm>
+                </div>
 
-                
-
-
-              </div>
+              <!-- </div> -->
             </div>
           </div>
 
