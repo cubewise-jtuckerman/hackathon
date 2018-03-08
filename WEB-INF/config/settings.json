@@ -13,7 +13,7 @@
   "theme": "default",
   "adminTheme": "default",
   "editorTheme": "monokai",
-  "showSideBar": true,
+  "showSideBar": false,
   "useCustomNavigation": false,
   "demo": false,
   "deleteCellsets": false,

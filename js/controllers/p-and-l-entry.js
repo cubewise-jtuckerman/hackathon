@@ -41,20 +41,20 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
           });
         };
       });
-
+      $tm1Ui.dataRefresh();
     });
   }
 
   $scope.setUrl = function(dim, elem) {
     $location.search(dim, elem);
     $tm1Ui.cellPut(elem, 'dev', 'System User Settings', $scope.currentUser, dim, 'string');
+    $tm1Ui.dataRefresh();
   }
 
   $scope.init();
 
-
   $scope.period = [{
-      'name': 'TOTAL',
+      'name': 'Year',
     },
     {
       'name': 'Jan',
@@ -95,7 +95,7 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
   ];
 
   $scope.quarter = [{
-      'name': 'TOTAL',
+      'name': 'Year',
     },
     {
       'name': 'Qtr 1',
@@ -107,12 +107,16 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
       'name': 'Qtr 3',
     },
     {
-      'name': 'Qrt 4',
+      'name': 'Qtr 4',
     }
   ];
 
   if (!$rootScope.uiPrefs.periodView) {
     $rootScope.uiPrefs.periodView = 'month';
+  }
+
+  if (!$rootScope.uiPrefs.summaryView) {
+    $rootScope.uiPrefs.summaryView = 'ms';
   }
 
   $scope.filter = function(value) {
@@ -157,5 +161,18 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
     $scope.table.refresh();
   }
 
+  $scope.getNetIncome = function(value, round) {
+    if (value) {
+      if (round == 'ks') {
+        var netIncome = value / 1000;
+      } else {
+        var netIncome = value / 1000000;
+      }
+      return netIncome;
+    }
+    else {
+      return 0;
+    }
+  }
 
 }]);

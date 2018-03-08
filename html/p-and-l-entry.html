@@ -2,113 +2,141 @@
 
   <div ng-hide="true">
     <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" tm1-mdx="{TM1DRILLDOWNMEMBER( {[Account].[4]}, ALL, RECURSIVE )}" tm1-attributes="Description" ng-model="lists.account"></tm1-ui-element-list>
+    <tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},Year,Local,{{selections.region}},{{selections.dept}},Net Income,Amount" ng-model="values.netincome"></tm1-dbr-hidden>
   </div>
 
-  <div class="row">
-    <div class="col-md-12 col-xs-12">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <i class="fa fa-money fa-lg"></i> Profit and Loss
+  <div class="panel panel-primary">
+    <div class="panel-body">
+      <div class="col-md-3 col-xs-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="btn-group">
+              <label class="btn btn-default" ng-model="$root.uiPrefs.summaryView" uib-btn-radio="'ms'" uib-uncheckable>Millons</label>
+              <label class="btn btn-default" ng-model="$root.uiPrefs.summaryView" uib-btn-radio="'ks'" uib-uncheckable>Ks</label>
+            </div>
+          </div>
         </div>
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-md-12 col-xs-12">
-              <div class="well">
-                <div class="row">
-                  <div class="col-md-3 col-xs-3">
-                    <div>Version</div>
-                    <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Version" tm1-subset="All Versions" tm1-default-element="{{defaults.Version}}" tm1-on-change="setUrl('Version', data)" ng-model="selections.version"></tm1-ui-subnm>
-                  </div>
-                  <div class="col-md-3 col-xs-3">
-                    <div>Year</div>
-                    <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" tm1-default-element="{{defaults.Year}}" tm1-on-change="setUrl('Year', data)" ng-model="selections.year"></tm1-ui-subnm>
-                  </div>
-                  <div class="col-md-3 col-xs-3">
-                    <div>Region</div>
-                    <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-subset="All Countries" tm1-default-element="{{defaults.Region}}" tm1-on-change="setUrl('Region', data)" ng-model="selections.region"></tm1-ui-subnm>
-                  </div>
-                  <div class="col-md-3 col-xs-3">
-                    <div>Department</div>
-                    <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-subset="DepartmentList" tm1-default-element="{{defaults.Department}}" tm1-on-change="setUrl('Department', data)" ng-model="selections.dept"></tm1-ui-subnm>
-                  </div>
-                </div>
-              </div>
-            </div>
+      </div>
+      <div class="col-md-2 col-xs-2">
+        <div class="panel panel-default">
+          <div class="panel-body" style="text-align: center">
+            <span style="color:green"><i ng-if="values.netincome>0" class="fa fa-smile-o fa-3x"></i></span>
+            <span style="color:red"><i ng-if="values.netincome<0" class="fa fa-frown-o fa-3x"></i></span>
+            <span style="color:grey"><i ng-if="!values.netincome" class="fa fa-meh-o fa-3x"></i></span>
           </div>
-          <div class="row">
-            <div class="col-md-6 col-xs-6">
-              <div class="input-group">
-                <input type="text" ng-model="$root.uiPrefs.accountfilter" class="form-control" placeholder="Search" ng-change="table.refresh()">
-                <div class="input-group-btn">
-                  <button class="btn btn-default" ng-click="clearFilter()">
-                    <i class="fa fa-trash"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-xs-6">
-              <div class="btn-group">
-                <label class="btn btn-primary" ng-model="$root.uiPrefs.periodView" uib-btn-radio="'month'" uib-uncheckable>Months</label>
-                <label class="btn btn-primary" ng-model="$root.uiPrefs.periodView" uib-btn-radio="'quarter'" uib-uncheckable>Quarters</label>
-              </div>
-            </div>
+        </div>
+      </div>
+      <div class="col-md-7 col-xs-7">
+        <div class="panel panel-default">
+          <div class="panel-body" style="text-align: center">
+            <div ng-class="{'alert alert-danger': values.netincome<0,'alert alert-success': values.netincome>0,'alert alert-warning': !values.netincome}">NET INCOME: {{getNetIncome(values.netincome,$root.uiPrefs.summaryView) | formatNumber:2}}</div>
           </div>
-          <div class="row">
-            <div class="col-md-12 col-xs-12">
-              <table class="table table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th class="tm1-ui-sortable" ng-class="table.sortClass('key')" ng-click="table.sort('key')">Account</th>
-                    <th ng-if="$root.uiPrefs.periodView == 'month'" ng-repeat="per in period">
-                      {{per.name}}
-                    </th>
-                    <th ng-if="$root.uiPrefs.periodView == 'quarter'" ng-repeat="quar in quarter">
-                      {{quar.name}}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="acc in table.data() track by acc.key">
-                    <td>
-                      <tm1-ui-element-list-item tm1-item="acc" tm1-item-display="{{acc.alias}}"></tm1-ui-element-list-item>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 col-xs-12">
-              <div>
-                <div class="btn-group" role="group">
-                  <button ng-if="table.page() != 1" type="button" class="btn btn-default" ng-model="page.gotofirstpage" ng-click="firstPage()">First</button>
-                  <button ng-if="table.page() == 1" type="button" class="btn btn-default disabled" ng-model="page.gotofirstpage" ng-click="firstPage()">First</button>
-                </div>
-                <div class="btn-group" role="group">
-                  <button ng-if="table.page() != 1" type="button" class="btn btn-default" ng-click="table.previous()"><i class="fa fa-angle-left"></i></button>
-                  <button ng-if="table.page() == 1" type="button" class="btn btn-default disabled" ng-click="table.previous()"><i class="fa fa-angle-left"></i></button>
-                  <span class="btn btn-info">{{table.page()}} of {{table.pages()}}</span>
-                  <button ng-if="table.page() != table.pages()" type="button" class="btn btn-default" ng-click="table.next()"><i class="fa fa-angle-right"></i></button>
-                  <button ng-if="table.page() == table.pages()" type="button" class="btn btn-default disabled" ng-click="table.next()"><i class="fa fa-angle-right"></i></button>
-                </div>
-                <div class="btn-group" role="group">
-                  <button ng-if="table.page() < table.pages()" type="button" class="btn btn-default" ng-model="page.gotolastpage" ng-click="lastPage()">Last</button>
-                  <button ng-if="table.page() == table.pages()" type="button" class="btn btn-default disabled" ng-model="page.gotolastpage" ng-click="lastPage()">Last</button>
-                </div>
-                <div class="btn-group pull-right" role="group">
-                  <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(10)}" ng-click="table.pageSize(10)">10</button>
-                  <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(20)}" ng-click="table.pageSize(20)">20</button>
-                  <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(30)}" ng-click="table.pageSize(30)">30</button>
-                  <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(50)}" ng-click="table.pageSize(50)">50</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
   </div>
+  <div class="panel panel-primary">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-3 col-xs-3">
+          <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Version" tm1-select-only="true" tm1-subset="All Versions" tm1-default-element="{{defaults.Version}}" tm1-on-change="setUrl('Version', data)" ng-model="selections.version"></tm1-ui-subnm>
+        </div>
+        <div class="col-md-3 col-xs-3">
+          <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-select-only="true" tm1-subset="All Years" tm1-default-element="{{defaults.Year}}" tm1-on-change="setUrl('Year', data)" ng-model="selections.year"></tm1-ui-subnm>
+        </div>
+        <div class="col-md-3 col-xs-3">
+          <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-select-only="true" tm1-subset="All Countries" tm1-default-element="{{defaults.Region}}" tm1-on-change="setUrl('Region', data)" ng-model="selections.region"></tm1-ui-subnm>
+        </div>
+        <div class="col-md-3 col-xs-3">
+          <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-select-only="true" tm1-subset="DepartmentList" tm1-default-element="{{defaults.Department}}" tm1-on-change="setUrl('Department', data)" ng-model="selections.dept"></tm1-ui-subnm>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-6 col-xs-6">
+          <div class="input-group">
+            <input type="text" ng-model="$root.uiPrefs.accountfilter" class="form-control" placeholder="Search" ng-change="table.refresh()">
+            <div class="input-group-btn">
+              <button class="btn btn-default" ng-click="clearFilter()">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-6">
+          <div class="btn-group">
+            <label class="btn btn-default" ng-model="$root.uiPrefs.periodView" uib-btn-radio="'month'" uib-uncheckable>Months</label>
+            <label class="btn btn-default" ng-model="$root.uiPrefs.periodView" uib-btn-radio="'quarter'" uib-uncheckable>Quarters</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-xs-12">
+          <table class="table table-striped table-condensed table-bordered">
+            <thead>
+              <tr>
+                <th class="tm1-ui-sortable" style="width: 20vw" ng-class="table.sortClass('key')" ng-click="table.sort('key')">Account</th>
+                <th ng-if="$root.uiPrefs.periodView == 'month'" ng-repeat="per in period">
+                  {{per.name}}
+                </th>
+                <th ng-if="$root.uiPrefs.periodView == 'quarter'" ng-repeat="quar in quarter">
+                  {{quar.name}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="acc in table.data() track by acc.key">
+                <td style="width: 20vw">
+                  <tm1-ui-element-list-item tm1-item="acc" tm1-item-display="{{acc.alias}}"></tm1-ui-element-list-item>
+                </td>
+                <td ng-if="$root.uiPrefs.periodView == 'month'" ng-repeat="per in period">
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},{{per.name}},Local,{{selections.region}},{{selections.dept}},{{acc.key}},Amount" ng-model="values.generalledger">
+                  </tm1-ui-dbr>
+                </td>
+                <td ng-if="$root.uiPrefs.periodView == 'quarter'" ng-repeat="quar in quarter">
+                  <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="{{selections.version}},{{selections.year}},{{quar.name}},Local,{{selections.region}},{{selections.dept}},{{acc.key}},Amount" ng-model="values.generalledger">
+                  </tm1-ui-dbr>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-xs-12">
+          <div>
+            <div class="btn-group" role="group">
+              <button ng-if="table.page() != 1" type="button" class="btn btn-default" ng-model="page.gotofirstpage" ng-click="firstPage()">First</button>
+              <button ng-if="table.page() == 1" type="button" class="btn btn-default disabled" ng-model="page.gotofirstpage" ng-click="firstPage()">First</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button ng-if="table.page() != 1" type="button" class="btn btn-default" ng-click="table.previous()"><i class="fa fa-angle-left"></i></button>
+              <button ng-if="table.page() == 1" type="button" class="btn btn-default disabled" ng-click="table.previous()"><i class="fa fa-angle-left"></i></button>
+              <span class="btn btn-info">{{table.page()}} of {{table.pages()}}</span>
+              <button ng-if="table.page() != table.pages()" type="button" class="btn btn-default" ng-click="table.next()"><i class="fa fa-angle-right"></i></button>
+              <button ng-if="table.page() == table.pages()" type="button" class="btn btn-default disabled" ng-click="table.next()"><i class="fa fa-angle-right"></i></button>
+            </div>
+            <div class="btn-group" role="group">
+              <button ng-if="table.page() < table.pages()" type="button" class="btn btn-default" ng-model="page.gotolastpage" ng-click="lastPage()">Last</button>
+              <button ng-if="table.page() == table.pages()" type="button" class="btn btn-default disabled" ng-model="page.gotolastpage" ng-click="lastPage()">Last</button>
+            </div>
+            <div class="btn-group pull-right" role="group">
+              <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(10)}" ng-click="table.pageSize(10)">10</button>
+              <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(20)}" ng-click="table.pageSize(20)">20</button>
+              <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(30)}" ng-click="table.pageSize(30)">30</button>
+              <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(50)}" ng-click="table.pageSize(50)">50</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
 
 
 </div>
