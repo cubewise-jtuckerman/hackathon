@@ -8,34 +8,39 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$lo
     *     For more information: https://github.com/cubewise-code/canvas-best-practice
     */
     
-    $scope.defaults = {
-        version: '',
-        year: '',
-        region: '',
-        dept: ''
-    };
+    $scope.defaults = {};
     $scope.selections = {
-        year: $scope.defaults.year
+        version: $scope.defaults.Version,
+        year: $scope.defaults.Year,
+        dept: $scope.defaults.Department,
+        region: $scope.defaults.Region
+
     };
     $scope.lists = {};
     $scope.values = {};
 
     $scope.init = function() {
+    
+        $tm1Ui.applicationUser('dev').then(function(data) {
+            $scope.currentUser = data['FriendlyName'];        
+
         //set default for other selection from User settings
-        _.forEach(['Year'], function(dim) {
+        _.forEach(['Version', 'Year', 'Region', 'Department'], function(dim) {
             if ( $location.search()[dim] ) {
                 $scope.defaults[dim] = $location.search()[dim];
             } else {
-                $tm1Ui.cellGet('dev', 'System User Settings', 'Admin', dim, 'String').then(function(data){ 
+                $tm1Ui.cellGet('dev', 'System User Settings', $scope.currentUser, dim, 'String').then(function(data){ 
                     if ( data ) { $scope.defaults[dim] = data.Value;}
                 });
             };
+        });
+
         });
     }
 
     $scope.setUrl = function(dim, elem) {
         $location.search(dim, elem);
-        $tm1Ui.cellPut ( elem, 'dev', 'System User Settings', 'Admin', dim, 'string');
+        $tm1Ui.cellPut ( elem, 'dev', 'System User Settings', $scope.currentUser, dim, 'string');
     }
     
     $scope.init();
