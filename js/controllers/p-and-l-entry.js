@@ -9,13 +9,13 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
    */
 
   $scope.defaults = {};
+    $scope.selections = {
+        version: $scope.defaults.Version,
+        year: $scope.defaults.Year,
+        dept: $scope.defaults.Department,
+        region: $scope.defaults.Region
 
-  $scope.selections = {};
-
-  $scope.lists = {
-    account: []
-  };
-
+    };
   $scope.values = {};
 
   $scope.period = [{
