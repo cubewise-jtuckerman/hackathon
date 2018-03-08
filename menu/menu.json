@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "label": "p-and-l-entry",
+    "icon_class": "fa-money",
+    "data": {
+      "page": "p-and-l-entry"
+    },
+    "expanded": false
+  }
+]

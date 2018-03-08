@@ -1,1 +1,6 @@
-{}
+{
+  "p-and-l-entry": {
+    "url": "/p-and-l-entry",
+    "templateUrl": "html/p-and-l-entry.html"
+  }
+}
