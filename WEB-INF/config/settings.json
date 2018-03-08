@@ -8,7 +8,7 @@
   },
   "showSamplesMenu": false,
   "showAdminMenu": false,
-  "showSystemMenu": true,
+  "showSystemMenu": false,
   "applicationName": "Hackathon",
   "theme": "default",
   "adminTheme": "default",
