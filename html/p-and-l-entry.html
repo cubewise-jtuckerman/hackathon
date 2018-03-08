@@ -4,7 +4,6 @@
     <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" tm1-mdx="{TM1DRILLDOWNMEMBER( {[Account].[4]}, ALL, RECURSIVE )}" tm1-attributes="Description" ng-model="lists.account"></tm1-ui-element-list>
   </div>
 
-
   <div class="row">
     <div class="col-md-12 col-xs-12">
       <div class="panel panel-primary">
@@ -21,19 +20,26 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-4 col-xs-4">
-              <input type="text" ng-model="$root.uiPrefs.accountfilter" class="form-control" placeholder="Search" ng-change="table.refresh()">
+            <div class="col-md-6 col-xs-6">
+              <div class="input-group">
+                <input type="text" ng-model="$root.uiPrefs.accountfilter" class="form-control" placeholder="Search" ng-change="table.refresh()">
+                <div class="input-group-btn">
+                  <button class="btn btn-default" ng-click="clearFilter()">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="col-md-4 col-xs-4">
+            <div class="col-md-6 col-xs-6">
               <div class="btn-group">
-                  <label class="btn btn-primary" ng-model="$root.uiPrefs.periodView" uib-btn-radio="'month'" uncheckable>Months</label>
-                  <label class="btn btn-primary" ng-model="$root.uiPrefs.periodView" uib-btn-radio="'quarter'" uib-uncheckable>Quarters</label>
+                <label class="btn btn-primary" ng-model="$root.uiPrefs.periodView" uib-btn-radio="'month'" uib-uncheckable>Months</label>
+                <label class="btn btn-primary" ng-model="$root.uiPrefs.periodView" uib-btn-radio="'quarter'" uib-uncheckable>Quarters</label>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12 col-xs-12">
-              <table class="table table-striped">
+              <table class="table table-striped table-condensed">
                 <thead>
                   <tr>
                     <th class="tm1-ui-sortable" ng-class="table.sortClass('key')" ng-click="table.sort('key')">Account</th>
@@ -56,7 +62,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12 col-xs-12">
               <div>
                 <div class="btn-group" role="group">
                   <button ng-if="table.page() != 1" type="button" class="btn btn-default" ng-model="page.gotofirstpage" ng-click="firstPage()">First</button>
@@ -78,7 +84,6 @@
                   <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(20)}" ng-click="table.pageSize(20)">20</button>
                   <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(30)}" ng-click="table.pageSize(30)">30</button>
                   <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(50)}" ng-click="table.pageSize(50)">50</button>
-                  <button type="button" class="btn btn-default" ng-class="{'active': table.isPageSize(list.account.length)}" ng-click="table.pageSize(lists.account.length)">ALL</button>
                 </div>
               </div>
             </div>

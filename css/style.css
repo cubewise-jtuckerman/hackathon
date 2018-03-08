@@ -1,0 +1,12 @@
+.btn-info {
+  background-color: transparent;
+  color: #000;
+  border: none;
+}
+
+.btn-info:hover {
+  background-color: transparent;
+  color: #000;
+  border: none;
+  cursor: default;
+}

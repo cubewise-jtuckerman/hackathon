@@ -96,7 +96,7 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
   };
 
   $scope.table = $tm1UiTable.create($scope, $scope.lists.account, {
-    pageSize: 10,
+    pageSize: 50,
     preload: false,
     filter: $scope.filter
   });
@@ -116,6 +116,11 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
       filter: $scope.filter
     });
   };
+
+  $scope.clearFilter = function() {
+    $rootScope.uiPrefs.accountfilter = '';
+    $scope.table.refresh();
+  }
 
 
 }]);
