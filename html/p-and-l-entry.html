@@ -10,26 +10,32 @@
       <div class="col-md-3 col-xs-3">
         <div class="panel panel-default">
           <div class="panel-body">
-            <div class="btn-group">
-              <label class="btn btn-default" ng-model="$root.uiPrefs.summaryView" uib-btn-radio="'ms'" uib-uncheckable>Millons</label>
-              <label class="btn btn-default" ng-model="$root.uiPrefs.summaryView" uib-btn-radio="'ks'" uib-uncheckable>Ks</label>
+            <div class="text-center">
+              <div class="btn-group">
+                <label class="btn btn-default" ng-model="$root.uiPrefs.summaryView" uib-btn-radio="'ms'" uib-uncheckable>Millons</label>
+                <label class="btn btn-default" ng-model="$root.uiPrefs.summaryView" uib-btn-radio="'ks'" uib-uncheckable>Ks</label>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-2 col-xs-2">
         <div class="panel panel-default">
-          <div class="panel-body" style="text-align: center">
-            <span style="color:green"><i ng-if="values.netincome>0" class="fa fa-smile-o fa-3x"></i></span>
-            <span style="color:red"><i ng-if="values.netincome<0" class="fa fa-frown-o fa-3x"></i></span>
-            <span style="color:grey"><i ng-if="!values.netincome" class="fa fa-meh-o fa-3x"></i></span>
+          <div class="panel-body">
+            <div class="text-center">
+              <span style="color:green"><i ng-if="values.netincome>0" class="fa fa-smile-o fa-3x"></i></span>
+              <span style="color:red"><i ng-if="values.netincome<0" class="fa fa-frown-o fa-3x"></i></span>
+              <span style="color:grey"><i ng-if="!values.netincome" class="fa fa-meh-o fa-3x"></i></span>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-7 col-xs-7">
         <div class="panel panel-default">
-          <div class="panel-body" style="text-align: center">
-            <div ng-class="{'alert alert-danger': values.netincome<0,'alert alert-success': values.netincome>0,'alert alert-warning': !values.netincome}">NET INCOME: {{getNetIncome(values.netincome,$root.uiPrefs.summaryView) | formatNumber:2}}</div>
+          <div class="panel-body">
+            <div class="text-center">
+              <div ng-class="{'alert alert-danger': values.netincome<0,'alert alert-success': values.netincome>0,'alert alert-warning': !values.netincome}">NET INCOME: {{getNetIncome(values.netincome,$root.uiPrefs.summaryView) | formatNumber:2}}</div>
+            </div>
           </div>
         </div>
       </div>

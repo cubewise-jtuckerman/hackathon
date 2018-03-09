@@ -67,24 +67,6 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
       'name': 'Year',
     },
     {
-      'name': 'Jan',
-    },
-    {
-      'name': 'Feb',
-    },
-    {
-      'name': 'Mar',
-    },
-    {
-      'name': 'Apr',
-    },
-    {
-      'name': 'May',
-    },
-    {
-      'name': 'Jun',
-    },
-    {
       'name': 'Jul',
     },
     {
@@ -101,6 +83,24 @@ app.controller('pandlentryCtrl', ['$scope', '$rootScope', '$log', '$tm1Ui', '$tm
     },
     {
       'name': 'Dec',
+    },
+    {
+      'name': 'Jan',
+    },
+    {
+      'name': 'Feb',
+    },
+    {
+      'name': 'Mar',
+    },
+    {
+      'name': 'Apr',
+    },
+    {
+      'name': 'May',
+    },
+    {
+      'name': 'Jun',
     }
   ];
 
