@@ -4,6 +4,12 @@
   border-left: none !important;
 }
 
+@media print {
+  .navbar-fixed-top {
+    display: none;
+  }
+}
+
 .navbar-fixed-top {
   background-color: #efefef;
   border-bottom: 1px solid #666;
